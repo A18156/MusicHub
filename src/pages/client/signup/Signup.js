@@ -3,14 +3,6 @@ import SlideBar from "../../../components/sliebar/SlideBar";
 import "./style.css";
 
 function Signup() {
-  const [fullname, setFullname] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [gender, setGender] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
-
   const saveDemo = (e) => {};
   return (
     <div>
@@ -29,7 +21,7 @@ function Signup() {
               name="username"
               type="text"
               placeholder="enter your full name"
-              onChange={(e) => setFullname(e.target.value)}
+
             />
             <p className="f_signup_validation"></p>
           </div>
@@ -42,7 +34,7 @@ function Signup() {
               name="username"
               type="text"
               placeholder="enter your email"
-              onChange={(e) => setBirthday(e.target.value)}
+
             />
             <p className="f_signup_validation"></p>
           </div>
@@ -56,7 +48,7 @@ function Signup() {
                 name="username"
                 type="radio"
                 value="1"
-                onChange={(e) => setGender(e.target.value)}
+
               />
               <label htmlFor="username">male</label>
             </div>
@@ -65,7 +57,7 @@ function Signup() {
                 name="username"
                 type="radio"
                 value="0"
-                onChange={(e) => setGender(e.target.value)}
+
               />
               <label htmlFor="username">female</label>
             </div>
@@ -79,7 +71,7 @@ function Signup() {
               name="username"
               type="text"
               placeholder="enter your email"
-              onChange={(e) => setBirthday(e.target.value)}
+
             />
             <p className="f_signup_validation"></p>
           </div>

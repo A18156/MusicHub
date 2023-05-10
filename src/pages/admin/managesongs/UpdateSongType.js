@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Logo from "../../../images/logo.png";
 import {useForm} from "react-hook-form";
 import {useAppContext} from "../../../context/AppContextProvider";
@@ -10,12 +10,27 @@ const AddSongType = () => {
         handleSubmit,
         formState: {errors},
     } = useForm();
+    const {id} = useParams();
+    const [name, setName] = React.useState("");
+
     const navigate = useNavigate();
     const {api} = useAppContext();
-    const boodyRequest = (request) =>{
-        api.post({url: "/api/songtype", body: request})
-            .then((res) => {alert("add new type of song success");
-            navigate("/admin/typeofsong");})
+    React.useEffect(() => {
+        api
+            .get({url: "/api/songtype/" + id})
+            .then((data) => {
+                setName(data.name);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [api]);
+    const boodyRequest = (request) => {
+        api.put({url: "/api/songtype/"+id, body: request})
+            .then((res) => {
+                alert("add new type of song success");
+                navigate("/admin/typeofsong");
+            })
     }
 
     return (
@@ -70,12 +85,26 @@ const AddSongType = () => {
                                         Add Song&apos;s Type
                                     </h1>
                                     <div className="form-group">
+                                        <label htmlFor="songtypeid">
+                                            ID
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="songtypeid"
+                                            id="songtypeid"
+                                            className="form-control"
+                                            disabled={true}
+                                            defaultValue={id}
+                                        />
+                                    </div>
+                                    <div className="form-group">
                                         <label htmlFor="songtype">Song Type</label>
                                         <input
                                             type="text"
                                             name="songtype"
                                             id="songtype"
                                             className="form-control"
+                                            defaultValue={name}
                                             {...register("name", {
                                                 required: "*This is required",
                                                 minLength: {value: 2, message: "*Min length is 2"},
@@ -90,11 +119,16 @@ const AddSongType = () => {
                                         value="Submit"
                                         className="btn-primary btn btn-block"
                                     />
+                                    <input
+                                        type="button"
+                                        value="cancel"
+                                        className="btn-light btn btn-block btn-update-admin"
+                                        onClick={() => navigate("/admin/typeofsong")}
+                                    />
                                 </form>
                             </div>
                         </div>
                     </div>
-                    {/* /.container-fluid */}
                 </div>
             </div>
         </div>

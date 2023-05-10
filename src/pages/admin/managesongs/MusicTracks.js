@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import "./style.css";
 
 
 const MusicTracks = () => {
+    const navigate = useNavigate();
     return (
         <div>
             <div className="content-wrapper">
@@ -28,9 +29,9 @@ const MusicTracks = () => {
                 <section className="content">
                     <div className="container-fluid">
                         <div>
-                            <Link to="../../addtracks"  >
-                                <p className="btn btn-primary">Add Song</p>
-                            </Link>
+                            <button className="btn btn-primary" onClick={() => navigate("/admin/song/addsong")}  >
+                                Add Song
+                            </button>
                         </div>
                         {/* <br /> */}
                         <table className="tbl-full table table-striped ">

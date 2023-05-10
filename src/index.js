@@ -18,7 +18,7 @@ import { AppContextProvider } from "./context/AppContextProvider";
 import PrivateRoute from "./context/PrivateRoute";
 
 import AdminApp from "./pages/admin/adminapp/AdminApp";
-import AdminHome from "./pages/admin/home/Home"
+import AdminHome from "./pages/admin/home/Home";
 import AdminMusicTracks from "./pages/admin/managesongs/MusicTracks";
 import AdminTypeOfSong from "./pages/admin/managesongs/TypeOfSong";
 import AdminAlbums from "./pages/admin/managealbum/Albums";
@@ -33,6 +33,8 @@ import AddAccount from "./pages/admin/manageaccounts/Addaccount";
 import AddPremium from "./pages/admin/payment/AddPremium";
 import AddAlbumTypes from "./pages/admin/managealbum/AddAlbumType";
 import AddAlbum from "./pages/admin/managealbum/AddAlbum";
+import UpdateSongType from "./pages/admin/managesongs/UpdateSongType";
+import AddSong from "./pages/admin/managesongs/AddSong";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -58,11 +60,7 @@ root.render(
           <Route path="songpurchase" element={<SongPurchase />} />
           <Route path="manageaccount" element={<ManageAccount />} />
         </Route>
-        <Route path="addtracks" element={<AddTracks />} />
-        <Route path="addsongtypes" element={<AddSongTypes />} />
-        <Route path="addaccount" element={< AddAccount />} />
-        <Route path="addpremium" element={<AddPremium />} />
-        <Route path="addalbumtypes" element={<AddAlbumTypes />} />
+       
         <Route path="addalbum" element={<AddAlbum />} />
       </Routes>
     </BrowserRouter> */}
@@ -81,15 +79,29 @@ root.render(
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="premium" element={<Premium />} />
-          <Route path="admin" element={<PrivateRoute><AdminApp /></PrivateRoute>} >
-              <Route path="/admin" element={< AdminHome />} />
-              <Route path="musictracks" element={< AdminMusicTracks />} />
-              <Route path="typeofsong" element={<AdminTypeOfSong />} />
-              <Route path="albums" element={<AdminAlbums />} />
-              <Route path="typeofalbum" element={<AdminTypeOfAlbums />} />
-              <Route path="premium" element={<AdminPremium />} />
-              <Route path="songpurchase" element={<SongPurchase />} />
-              <Route path="manageaccount" element={<ManageAccount />} />
+          <Route
+            path="admin"
+            element={
+              <PrivateRoute>
+                <AdminApp />
+              </PrivateRoute>
+            }
+          >
+            <Route path="/admin" element={<AdminHome />} />
+            <Route path="musictracks" element={<AdminMusicTracks />} />
+            <Route path="typeofsong" element={<AdminTypeOfSong />} />
+            <Route path="typeofsong/:id" element={<UpdateSongType/>} />
+            <Route path="typeofsong/addsongtypes" element={<AddSongTypes />} />
+            <Route path="song/addsong" element={<AddSong />} />
+            <Route path="albums" element={<AdminAlbums />} />
+            <Route path="typeofalbum" element={<AdminTypeOfAlbums />} />
+            <Route path="premium" element={<AdminPremium />} />
+            <Route path="songpurchase" element={<SongPurchase />} />
+            <Route path="manageaccount" element={<ManageAccount />} />
+            <Route path="addtracks" element={<AddTracks />} />
+            <Route path="addaccount" element={<AddAccount />} />
+            <Route path="addpremium" element={<AddPremium />} />
+            <Route path="addalbumtypes" element={<AddAlbumTypes />} />
           </Route>
         </Routes>
       </HashRouter>

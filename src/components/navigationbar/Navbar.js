@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useAppContext } from "../../context/AppContextProvider";
 
 function Navbar() {
-  const { isLogin, user, signOut } = useAppContext();
+  const { isLogin, signOut } = useAppContext();
   const [navbarActive, setNavbarActive] = useState(false);
   const changeBG = () => {
     if (window.scrollY >= 200) {

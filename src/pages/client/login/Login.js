@@ -24,7 +24,13 @@ function Login() {
     signIn(data)
       // LoginService.requestLogin(data)
       .then((res) => {
-        console.log(res);
+        console.log(res.roles[0]);
+        console.log(res.roles.length);
+        for(let i = 0; i < res.roles.length; i++){
+           if(res.roles[i] === "ROLE_ADMIN" || res.roles[i] === "ROLE_MANAGER"){
+            navigate("/admin");
+           }
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -47,7 +53,7 @@ function Login() {
               {...register("username", {
                 required: "*This is required",
                 minLength: { value: 4, message: "*Min length is 4" },
-                maxLength: { value: 20, message: "*Min length is 20" },
+                maxLength: { value: 20, message: "*Max length is 20" },
               })}
             />
             <p className="f_login_validation">{errors.username?.message}</p>

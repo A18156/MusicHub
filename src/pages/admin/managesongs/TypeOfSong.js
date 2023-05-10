@@ -1,7 +1,34 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useAppContext} from "../../../context/AppContextProvider";
 
 const TypeOfSong = () => {
+    const navigate = useNavigate();
+    const [list, setList] = React.useState([]);
+    const {api} = useAppContext();
+
+    const getAll = () => {
+    }
+    React.useEffect(() => {
+        api
+            .get({url: "/api/songtype"})
+            .then((data) => {
+                // console.table(data);
+                setList(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [api]);
+
+    const handleDelete = (id) =>{
+        if(window.confirm("are you sure")){
+            console.log(id)
+            api.delete({url:"/api/songtype/"+id});
+        }
+    }
+
+
     return (
         <div>
             <div className="content-wrapper">
@@ -10,58 +37,76 @@ const TypeOfSong = () => {
                     <div className="container-fluid">
                         <div className="row mb-2">
                             <div className="col-sm-6">
-                                <h1 className="m-0 title-color" >Type Of Songs</h1>
-                            </div>{/* /.col */}
+                                <h1 className="m-0 title-color">Type Of Songs</h1>
+                            </div>
+                            {/* /.col */}
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">
-                                    <Link to="" className="breadcrumb-item">Type Of Songs</Link>
+                                    <Link to="" className="breadcrumb-item">
+                                        Type Of Songs
+                                    </Link>
                                     <li className="breadcrumb-item active">Home</li>
                                 </ol>
-                            </div>{/* /.col */}
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.col */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
                 <section className="content">
                     <div className="container-fluid">
                         <div>
-                            <Link to="../../addsongtypes"  >
-                                <p className="btn btn-primary">Add Song Type</p>
-                            </Link>
+                            <button className="btn btn-primary"
+                                    onClick={() => navigate("/admin/typeofsong/addsongtypes")}
+                            >Add Song Type
+                            </button>
                         </div>
                         {/* <br /> */}
                         <table className="tbl-full table table-striped ">
-                            <thead >
-                                <tr >
-                                    <th>No. </th>
-                                    <th>Song Type</th>
-                                    <th></th>
-                                </tr>
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Song Type</th>
+                                <th></th>
+                            </tr>
                             </thead>
                             <tbody>
-
-                                <tr >
-                                    <td>1.</td>
-                                    <td>EDM</td>
-                                    <td>
-                                        <Link to="../../addtracks" className="btn-update-admin btn btn-light">Update</Link>
-                                        {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
-                                        <Link to="" className="btn-delete-admin btn btn-light">Delete</Link>
-                                        {/* <a href="#" className="btn-delete-admin btn btn-light">Delete</a> */}
-                                    </td>
-                                </tr>
+                            {list?.map((val, idx) => {
+                                return (
+                                    <tr key={idx}>
+                                        <td>{val.id}</td>
+                                        <td>{val.name}</td>
+                                        <td>
+                                            <button
+                                                // to={`/admin/typeofsong/${val.id}`}
+                                                className="btn-update-admin btn btn-light"
+                                                onClick={() => navigate(`/admin/typeofsong/${val.id}`)}
+                                            >
+                                                Update
+                                            </button>
+                                            {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
+                                            <button className="btn-delete-admin btn btn-light" onClick={() => handleDelete(val.id)}>
+                                                Delete
+                                            </button>
+                                            {/* <a href="#" className="btn-delete-admin btn btn-light">Delete</a> */}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                             </tbody>
                         </table>
 
-
                         {/* /.row (main row) */}
-                    </div>{/* /.container-fluid */}
+                    </div>
+                    {/* /.container-fluid */}
                 </section>
                 {/* /.content */}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default TypeOfSong
+export default TypeOfSong;
