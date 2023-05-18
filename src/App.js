@@ -8,7 +8,7 @@ import SlideBar from "./components/sliebar/SlideBar";
 
 function App() {
   return (
-    <div className="">
+    <div>
       <SlideBar></SlideBar>
       <div className="right">
         <Navbar></Navbar>

@@ -1,15 +1,28 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Logo from "../../../images/logo.png";
-import {useForm} from "react-hook-form";
+import {useForm, Controller} from "react-hook-form";
 import {useAppContext} from "../../../context/AppContextProvider";
+import {Multiselect} from 'multiselect-react-dropdown';
 
 const AddSong = () => {
+    const defaultValues = {
+        defaultValues: {
+            name: "",
+            audio: "",
+            image: "",
+            artistname: "",
+            songtype: "",
+        }
+    }
     const {
         register,
         handleSubmit,
         formState: {errors},
-    } = useForm();
+        control,
+        setValue,
+        reset
+    } = useForm(defaultValues);
     const navigate = useNavigate();
     const {api} = useAppContext();
 
@@ -20,30 +33,57 @@ const AddSong = () => {
     const [songtype, setSongtype] = React.useState([]);
     const [artist, setArtist] = React.useState([]);
 
-    React.useEffect(() => {
-        api
-            .get({url: "/api/songtype"})
-            .then((data) => {
-                // console.table(data);
-                setSongtype(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        api.get({url:"/api/artist"})
-            .then((data) =>{
-            setArtist(data);
-        })
-            .catch((err) => {
-                console.log(err);
-            })
-    }, [api]);
-    const boodyRequest = (request) => {
-        // api.post({url: "/api/songtype", body: request})
-        //     .then((res) => {alert("add new type of song success");
-        //         navigate("/admin/typeofsong");})
+    // const [option,setOption] = React.useState([]);
+    const tempArtist = [];
+    const tempSongType = [];
+
+    const [test, setTest] = React.useState();
+    const handleValue = (e) => {
+        setTest(e.target.value);
+        console.log(test);
+
     }
 
+    const [previewImg, setPreviewImg] = React.useState();
+
+    useEffect(()=>{
+        return()=>{
+            previewImg && URL.revokeObjectURL(previewImg.preview);
+        }
+    },[previewImg])
+
+    const handlePreviewImg = (e) =>{
+        const file = e.target.files[0];
+        console.log(URL.createObjectURL(file))
+        file.preview = URL.createObjectURL(file);
+        setPreviewImg(file);
+    }
+    //get all type of song from data
+    api
+        .get({url: "/api/songtype"})
+        .then((data) => {
+            // console.table(data);
+            data?.forEach((val) => {
+                tempSongType.push({name: val?.name, id: val?.id});
+            });
+            console.log("type", tempSongType)
+            // callback(tempSongType);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    //get all artist from data
+    // api.get({url: "/api/artist"})
+    //     .then((data) => {
+    //         data?.forEach((val) => {
+    //             tempArtist.push({name: val?.artistName, id: val?.artistID})
+    //         });
+    //         console.log("test", tempArtist);
+    //         // callback(tempArtist);
+    //     })
+    //     .catch((err) => {
+    //         console.log(err);
+    //     })
     return (
         <div>
             <div className="edit-background">
@@ -97,7 +137,7 @@ const AddSong = () => {
                                     </h1>
 
                                     <div className="form-group">
-                                        <label htmlFor="name">Name Of Song</label>
+                                        <label htmlFor="name">Title</label>
                                         <input
                                             type="text"
                                             name="name"
@@ -111,7 +151,29 @@ const AddSong = () => {
                                         />
                                         <p>{errors.name?.message}</p>
                                     </div>
+                                    <div className="form-group">
+                                        <label htmlFor="songtype">Song Type</label>
+                                        <Controller
+                                            name="songtype"
+                                            control={control}
+                                            rules={{required: "*This artist is required"}}
+                                            render={({
+                                                         field,
+                                                         fieldState: {error},
+                                                         formState,
+                                                     }) => (
+                                                <Multiselect
+                                                    name="artistname"
+                                                    options={tempSongType}
+                                                    // displayValue="name"
+                                                    // selectedValues={songtype.id}
+                                                    onChange={(e) => handleValue(e)}
+                                                />
+                                            )}
+                                        />
 
+                                        <p>{errors.songtype?.message}</p>
+                                    </div>
                                     <div className="form-group">
                                         <label htmlFor="audio">Audio</label>
                                         <input
@@ -136,46 +198,16 @@ const AddSong = () => {
                                             {...register("image", {
                                                 required: "*This is required",
                                             })}
+                                            onChange={handlePreviewImg}
                                         />
-                                        <p>{errors.image?.message}</p>
                                     </div>
-                                    <div className="form-group">
-                                        <label htmlFor="artist">Artist</label>
-                                        <select
-                                            // size={"4"}
-                                            isMulti={true}
-                                            className="form-select form-control" {...register("artist", {required: "*This arist is required"})}>
-                                            <option value=''> -- select an option --</option>
-                                            {/*<option value="Mr">Mr</option>*/}
-                                            {/*<option value="Mrs">Mrs</option>*/}
-                                            {/*<option value="Miss">Miss</option>*/}
-                                            {/*<option value="Dr">Dr</option>*/}
-                                            {artist?.map((val, idx)=> {
-                                                return(
-                                                    <option key={idx} value={val.id}>{val.artistName}</option>
-                                                )
-                                            })}
-                                        </select>
-                                        <p>{errors.artist?.message}</p>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="songtype">Song Type</label>
-                                        <select
-                                            className="form-select form-control" {...register("songtype", {required: "*This song type is required"})}>
-                                            <option value=''> -- select an option --</option>
-                                            {/*<option value="Mr">Mr</option>*/}
-                                            {/*<option value="Mrs">Mrs</option>*/}
-                                            {/*<option value="Miss">Miss</option>*/}
-                                            {/*<option value="Dr">Dr</option>*/}
-                                            {songtype?.map((val,idx) => {
-                                                return (
-                                                    <option key={idx} value={val.id}>{val.name}</option>
-                                                )
-                                            })}
-                                        </select>
+                                    {previewImg && (
+                                        <div className="form-group">
+                                            <img src={previewImg.preview} alt="" width={`30%`}/>
+                                        </div>
+                                    )
+                                    }
 
-                                        <p>{errors.songtype?.message}</p>
-                                    </div>
                                     <input
                                         type="submit"
                                         value="Submit"

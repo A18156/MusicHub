@@ -10,18 +10,19 @@ const navLink = [
   { icon:<FaMusic/>, name: "new",link:"../" },
   { icon:<BiCategory/>, name: "Category" ,link:"../category"},
   { icon:<FaDeezer/>, name: "trend",link:"../trend" },
-  { icon:<AiOutlineProfile/>, name: "Account" ,link:"../account"},
-  { icon:<FaRegHeart/>, name: "collection", link:"../collection" },
+  // { icon:<AiOutlineProfile/>, name: "Account" ,link:"../account"},
+  { icon:<FaRegHeart/>, name: "collection", link:"../collection" }
 ];
 function SlideBar() {
   const [open, setOpen] = useState(false);
-  const toggle = () => setOpen(!open);
+  // const toggle = () => setOpen(!open);
 
   const [navActive, setNavActive] = useState(0);
-  const toggleAcite = (index) => setNavActive(index);
+  const toggleAcitve = (index) => setNavActive(index);
 
   return (
-    <div className={`navigation-left ${open ? "open" : ""}`}>
+    // <div className={`navigation-left ${open ? "open" : ""}`}>
+    <div className="navigation-left">
       <div className="brand">
         <div className="brand-box">
           <Link to={"../"} className="brand-img" onClick={()=>setNavActive(0)}>
@@ -34,7 +35,7 @@ function SlideBar() {
         <div className="menu-bar">
           <ul className="menu-links">
             {navLink.map((val, idx) => (
-              <li key={idx} onClick={() => toggleAcite(idx)} className={`${navActive === idx ? "nav-active" : ""}`}>
+              <li key={idx} onClick={() => toggleAcitve(idx)} className={`${navActive === idx ? "nav-active" : ""}`}>
                 <Link to={val.link}>
                   <i className="icon">{val.icon}</i>
                   <span className="hide-text">{val.name}</span>
@@ -43,12 +44,12 @@ function SlideBar() {
             ))}
           </ul>
         </div>
-        <div className="bottom-sidebar">
-          <i className="toggle" onClick={toggle}>
-            <FaChevronRight />
-          </i>
-          <div className="menu-board"></div>
-        </div>
+        {/*<div className="bottom-sidebar">*/}
+        {/*  <i className="toggle" onClick={toggle}>*/}
+        {/*    <FaChevronRight />*/}
+        {/*  </i>*/}
+        {/*  <div className="menu-board"></div>*/}
+        {/*</div>*/}
       </div>
     </div>
   );

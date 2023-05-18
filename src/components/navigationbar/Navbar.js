@@ -29,11 +29,6 @@ function Navbar() {
           </div>
         </div>
         <ul>
-          <li className="nav-vip">
-            <Link to="premium">
-              <span>vip</span>{" "}
-            </Link>
-          </li>
           <li className="nav-upload">
             <i>
               <BiUpload />

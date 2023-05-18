@@ -85,18 +85,18 @@
     color: var(--primary-color);
 }
 
-.hide-text {
+.title-text {
     font-weight: 500;
     white-space: nowrap;
     font-size: 1.4rem;
     text-transform: capitalize;
 }
 
-.bottom-sidebar {
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
+/*.bottom-sidebar {*/
+/*    display: none;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
 
 @media (max-width: 1024px) {
     .navigation-left {

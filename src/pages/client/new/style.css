@@ -1,14 +1,6 @@
-/* .header-img {
-    height: 260px;
-    width: 100%;
-    overflow: hidden;
+.content-r{
+    margin-bottom: 100px;
 }
-
-.header-img img {
-    max-width: 100%;
-    object-fit: cover;
-    transform: translate(0px, -38px);
-} */
 
 .tabs-container {
     padding: 20px;

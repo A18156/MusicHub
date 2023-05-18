@@ -11,7 +11,6 @@ import Account from "./pages/client/account/Account";
 import Collection from "./pages/client/collection/Collection";
 import Album from "./pages/client/album/Album";
 import Category from "./pages/client/category/Category";
-import Premium from "./pages/client/premium/Premium";
 import Login from "./pages/client/login/Login";
 import Signup from "./pages/client/signup/Signup";
 import { AppContextProvider } from "./context/AppContextProvider";
@@ -78,7 +77,6 @@ root.render(
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="premium" element={<Premium />} />
           <Route
             path="admin"
             element={
