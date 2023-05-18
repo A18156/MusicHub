@@ -33,21 +33,17 @@
 .f_login_row {
     display: flex;
     flex-direction: column;
-    margin-top: 3rem;
+    /*margin-top: 3rem;*/
     position: relative;
 }
 
 .f_login_row input {
-    height: 32px;
     padding: 2px 4px;
-    border-radius: 10px;
-    margin-top: 1rem;
-    outline: none;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    background: var(--primary-color);
+    border-radius: 4px;
     font-size: 1.6rem;
+    /*border: none ;*/
+    width: 100%;
+    border:1px solid transparent;
 }
 
 .f_login_row input:placeholder,
@@ -72,7 +68,6 @@
 }
 
 .f_bottom_login {
-    margin-top: 4rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -113,11 +108,12 @@
     .f_login_container {
         margin-left: 28px;
         margin-top: 0;
-        background: var(--primary-color);
+        min-height: 100%;
+        /*background: var(--primary-color);*/
     }
     .f_login_content {
-        max-width: 216px;
-        min-height: 250px;
+        /*max-width: 216px;*/
+        /*min-height: 250px;*/
         justify-content: center;
         box-shadow: none;
     }
