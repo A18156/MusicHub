@@ -44,6 +44,6 @@ body {
 
 @media (max-width: 1024px) {
     .right {
-        margin-left: 88px;
+        margin-left: 0px;
     }
 }

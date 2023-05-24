@@ -14,7 +14,7 @@
 
 .f_login_content {
     max-width: 350px;
-    min-height: 550px;
+    min-height: 350px;
     margin: auto;
     padding: 20px;
     background: var(--primary-color);
@@ -33,7 +33,7 @@
 .f_login_row {
     display: flex;
     flex-direction: column;
-    /*margin-top: 3rem;*/
+    margin: .5rem;
     position: relative;
 }
 
@@ -52,6 +52,9 @@
 .f_login_row input:-ms-input-placeholder {
     color: var(--text-color) !important;
     font-size: .6rem;
+}
+.f_bottom_login{
+    margin-top: .5rem;
 }
 .f_bottom_login input{
     cursor: pointer;

@@ -15,7 +15,7 @@ function Account() {
             <li>email: <span>gmail.com</span></li>
             <li>phone: <span>09xxxxxxxx</span></li>
             <li>username: <span>Ad***</span></li>
-            <li>password: <span>******</span></li>
+            <li><input type="button" value="change password"/> <input type="button" value="update info"/></li>
           </ul>
       </div>
     </div>
