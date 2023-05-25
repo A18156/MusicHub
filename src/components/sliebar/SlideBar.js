@@ -13,12 +13,12 @@ const navLink = [
     {icon: <AiOutlineProfile/>, name: "Account", link: "../account"},
     {icon: <FaRegHeart/>, name: "collection", link: "../collection"},
 ];
-const useClickOutside = (handler) =>{
+const useClickOutside = (handler) => {
     let domNode = useRef(null);
-    useEffect(() =>{
-        let handleMouseDown = (e)=>{
-            if(!domNode.current.contains(e.target)){
-               handler();
+    useEffect(() => {
+        let handleMouseDown = (e) => {
+            if (!domNode.current.contains(e.target)) {
+                handler();
             }
         }
         document.addEventListener("mousedown", handleMouseDown);
@@ -28,9 +28,13 @@ const useClickOutside = (handler) =>{
     });
     return domNode;
 }
+
 function SlideBar() {
     const [open, setOpen] = useState(false);
-    const toggle = () => {setOpen(!open);console.log(open);}
+    const toggle = () => {
+        setOpen(!open);
+        console.log(open);
+    }
 
     const [navActive, setNavActive] = useState(0);
     const toggleActive = (index) => {
@@ -42,24 +46,39 @@ function SlideBar() {
 
     let menuRef = useRef(null);
 
-    let domNode = useClickOutside(()=>{
-        setOpen(!open);
-        console.log("abc",open)
-    });
+    // let domNode = useClickOutside(() => {
+    //     setOpen(!open);
+    //     console.log("abc", open)
+    // });
     return (
         <div>
             <div className={`nav_toggle`}>
-                <div className="burger_menu" onClick={() => {setOpen(!open);console.log(open);}}>
+                <div className="burger_menu" onClick={() => {
+                    setOpen(i => {
+                        console.log("bugger", !i);
+                        return !i;
+                    });
+                }}>
                     <div className="burger_line"></div>
                     <div className="burger_line"></div>
                     <div className="burger_line"></div>
                 </div>
                 {/*<div className="menu-board"></div>*/}
             </div>
-            <div className={`app_drawer ${open ? "visible": "hidden"}`}></div>
-            <div ref={domNode} className={`navigation-left ${open ? "open" : "hidden"}`}>
+            <div className={`app_drawer ${open ? "visible" : "hidden"}`} onClick={() => {
+                setOpen(i => {
+                    console.log("drawer", !i);
+                    return !i;
+                })
+            }}></div>
+            <div className={`navigation-left ${open ? "open" : "hidden"}`}>
                 <div className="brand">
-                    <div className="brand-box" onClick={() => setOpen(!open)}>
+                    <div className="brand-box" onClick={() => {
+                        setOpen(i => {
+                            console.log("brand box", open);
+                            return !i;
+                        });
+                    }}>
                         <Link to={"../"} className="brand-img" onClick={() => setNavActive(0)}>
                             <img src={Logo} alt="MusicHub"/>
                             <h1 className="title_text">MusicHub</h1>
