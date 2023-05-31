@@ -1,4 +1,4 @@
-.conten-nav-r {
+.content-nav-r {
     width: calc(100% - 240px);
     display: flex;
     align-items: center;
@@ -12,22 +12,82 @@
     transition: .4s ease;
 }
 
-.conten-nav-r.navbar-active {
+.content-nav-r.navbar-active {
     background-color: var(--bg-r-color);
 }
 
-.conten-nav-r ul {
+.nav_item {
     display: flex;
     align-items: center;
     list-style: none;
     margin-left: 10px;
 }
 
-.conten-nav-r ul li {
+.content-nav-r ul li {
     display: flex;
     align-items: center;
     margin: 0 10px;
     cursor: pointer;
+}
+.login_icon{
+    font-size: 60px;
+    padding-top: 5px;
+}
+.account_dropdown{
+    width: 200px;
+    position: absolute;
+    background: #fff;
+    right: 10px;
+    top:80px;
+    border-radius: 8px;
+    padding: 10px 20px;
+}
+.account_dropdown:before{
+    content: "";
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    height: 20px;
+    width: 20px;
+    background: #fff;
+    transform: rotate(45deg);
+}
+.account_dropdown.active{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: .5s ease;
+}
+
+.account_dropdown.inactive{
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: .5s ease;
+}
+
+.account_dropdown ul{
+    flex-direction: column;
+}
+.account_dropdown ul li{
+    padding: 10px  0;
+    border-top: 2px solid rgba(0, 0, 0, 0.3);
+    color: var(--text-second-color);
+}
+.account_dropdown ul li i{
+    margin-right: 10px;
+    opacity: 0.5;
+    font-size: 1.5rem;
+}
+
+.account_dropdown ul li:hover i{
+    color: var(--primary-color);
+    opacity: 1;
+}
+.account_dropdown ul li:hover span{
+    /*color: rgb(212, 33, 9);*/
+    cursor: pointer;
+    color: var(--primary-color);
 }
 
 .nav-vip {
@@ -90,8 +150,8 @@
     color: var(--text-color);
 }
 
-.nav-upload i {
-    font-size: 30px;
+.upload_icon {
+    font-size: 40px;
 }
 
 .user {
@@ -124,8 +184,9 @@
     transform: translate(0px, -38px);
 }
 
+
 @media (max-width: 1024px) {
-    .conten-nav-r {
+    .content-nav-r {
         width: 100%;
     }
     .search-box{
@@ -133,7 +194,7 @@
     }
 }
 /*@media (max-width: 820px) {*/
-/*    .conten-nav-r {*/
+/*    .content-nav-r {*/
 /*        width: 100%;*/
 /*    }*/
 /*}*/

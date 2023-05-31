@@ -16,15 +16,20 @@ import Signup from "./pages/client/signup/Signup";
 import { AppContextProvider } from "./context/AppContextProvider";
 import PrivateRoute from "./context/PrivateRoute";
 
+
 import AdminApp from "./pages/admin/adminapp/AdminApp";
 import AdminHome from "./pages/admin/home/Home";
-import AdminMusicTracks from "./pages/admin/managesongs/MusicTracks";
+import AdminMusicTracks from "./pages/admin/managesongs/Song";
 import AdminTypeOfSong from "./pages/admin/managesongs/TypeOfSong";
 import AdminAlbums from "./pages/admin/managealbum/Albums";
 import AdminTypeOfAlbums from "./pages/admin/managealbum/TypeOfAlbum";
 import AdminPremium from "./pages/admin/payment/PremiumList";
 import SongPurchase from "./pages/admin/payment/SongPurchase";
 import ManageAccount from "./pages/admin/manageaccounts/ManageUserAccounts";
+import AddSong from "./pages/admin/managesongs/AddSong";
+import ForgotPwd from "./pages/client/forgotPwd/ForgotPwd";
+import ChangePwd from "./pages/client/changePwd/ChangePwd";
+
 
 import AddTracks from "./pages/admin/managesongs/AddTrack";
 import AddSongTypes from "./pages/admin/managesongs/AddSongType";
@@ -33,36 +38,12 @@ import AddPremium from "./pages/admin/payment/AddPremium";
 import AddAlbumTypes from "./pages/admin/managealbum/AddAlbumType";
 import AddAlbum from "./pages/admin/managealbum/AddAlbum";
 import UpdateSongType from "./pages/admin/managesongs/UpdateSongType";
-import AddSong from "./pages/admin/managesongs/AddSong";
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    {/* <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="/" element={< New />} />
-          <Route path="category" element={< Category />} />
-          <Route path="trend" element={<Trending />} />
-          <Route path="account" element={<Account />} />
-          <Route path="collection" element={<Collection />} />
-          <Route path="/album/:albumName" element={<Album />} />
-          <Route path="*" element={< NotFound />} />
-        </Route>
-        <Route path="/admin" element={<AdminApp />}>
-          <Route path="/admin" element={< AdminHome />} />
-          <Route path="musictracks" element={< AdminMusicTracks />} />
-          <Route path="typeofsong" element={<AdminTypeOfSong />} />
-          <Route path="albums" element={<AdminAlbums />} />
-          <Route path="typeofalbum" element={<AdminTypeOfAlbums />} />
-          <Route path="premium" element={<AdminPremium />} />
-          <Route path="songpurchase" element={<SongPurchase />} />
-          <Route path="manageaccount" element={<ManageAccount />} />
-        </Route>
-       
-        <Route path="addalbum" element={<AddAlbum />} />
-      </Routes>
-    </BrowserRouter> */}
     <AppContextProvider>
       <HashRouter>
         <Routes>
@@ -77,6 +58,9 @@ root.render(
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="forgot-password" element={<ForgotPwd/>} />
+          <Route path="change-password" element={<ChangePwd />} />
+
           <Route
             path="admin"
             element={

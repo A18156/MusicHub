@@ -1,6 +1,5 @@
 
 .f_signup_container {
-    margin-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,8 +45,8 @@
 .f_signup_row input::placeholder {
     text-transform: capitalize;
 }
-.f_signup_row span{
-    color: var(--text-color);;
+._err{
+    color: var(--primary-color-3rd);;
 }
 
 .f_signup_row input:focus,.f_signup_gender:focus {

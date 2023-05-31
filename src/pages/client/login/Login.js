@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import SlideBar from "../../../components/sliebar/SlideBar";
 import { useAppContext } from "../../../context/AppContextProvider";
 import "./style.css";
+import "../../../App.css";
 
 function Login() {
+  const [loginErr, setLoginErr] = useState(false);
+  const [errMessage,setErrMessage] = useState("*Wrong username or password!!");
   const {
     register,
     handleSubmit,
@@ -17,6 +20,8 @@ function Login() {
   React.useEffect(() => {
     if (isLogin) {
       navigate("/");
+    }else {
+      setLoginErr(true);
     }
   }, [isLogin, navigate]);
 
@@ -24,8 +29,8 @@ function Login() {
     signIn(data)
         // LoginService.requestLogin(data)
         .then((res) => {
-          console.log(res.roles[0]);
-          console.log(res.roles.length);
+          // console.log(res.roles[0]);
+          // console.log(res.roles.length);
           for(let i = 0; i < res.roles.length; i++){
             if(res.roles[i] === "ROLE_ADMIN" || res.roles[i] === "ROLE_MANAGER"){
               navigate("/admin");
@@ -44,6 +49,7 @@ function Login() {
             <div className="login_title">
               <h1>Login</h1>
             </div>
+            <span className={`${loginErr ? "visible" : "hidden"}`}>{errMessage}</span>
             <div className="f_login_row">
               <input
                   placeholder="username"
@@ -68,6 +74,9 @@ function Login() {
               <p className="f_login_validation">{errors.password?.message}</p>
             </div>
             <div className="f_bottom_login">
+              <div className="forgot_password">
+                <span onClick={()=> navigate("/forgot-password")}>forgot password</span>
+              </div>
               <input type="submit" value="login" />
               <div className="sign_up_link">
                 <span onClick={ ()=> navigate("/signup")}>Sign Up</span>

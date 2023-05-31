@@ -1,10 +1,5 @@
-.f_login_text {
-    font-size: 2rem;
-    text-transform: capitalize;
-}
 
 .f_login_container {
-    margin-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,20 +38,15 @@
     font-size: 1.6rem;
     /*border: none ;*/
     width: 100%;
-    border:1px solid transparent;
+    border: 1px solid transparent;
 }
 
-.f_login_row input:placeholder,
-.f_login_row input:-moz-placeholder,
-.f_login_row input:-webkit-input-placeholder,
-.f_login_row input:-ms-input-placeholder {
-    color: var(--text-color) !important;
-    font-size: .6rem;
-}
-.f_bottom_login{
+
+.f_bottom_login {
     margin-top: .5rem;
 }
-.f_bottom_login input{
+
+.f_bottom_login input {
     cursor: pointer;
 }
 
@@ -77,59 +67,77 @@
     align-items: center;
     justify-content: center;
 }
-
+.forgot_password{
+    width: 100%;
+    text-align: right;
+    margin-bottom: .8rem;
+}
+.forgot_password span{
+    text-transform: capitalize;
+}
+.forgot_password span:hover{
+    color: var(--primary-color-light);
+    text-decoration: underline;
+}
 .f_bottom_login input {
     background: rgba(230, 61, 31, 1);
     height: 40px;
-    min-width: 90px;
+    width: 100%;
     font-size: 1.4rem;
     border-radius: 20px;
     border: none;
 }
-.sign_up_link{
+
+.sign_up_link {
     margin-top: 1.5rem;
     text-transform: capitalize;
-    text-decoration: underline;
     padding: 5px;
     border-radius: 10px;
 }
-.sign_up_link:hover{
+
+.sign_up_link:hover {
     background-color: rgba(230, 61, 31, 1);
+    text-decoration: underline;
 }
 
 .f_bottom_login input:hover {
     background: rgba(230, 61, 31, .5);
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
     .f_login_container {
-        margin-left: 88px;
+        margin-left: 0;
     }
 }
 
 @media (max-width: 640px) {
     .f_login_container {
-        margin-left: 28px;
+        /*margin-left: 28px;*/
         margin-top: 0;
         min-height: 100%;
         /*background: var(--primary-color);*/
     }
+
     .f_login_content {
         /*max-width: 216px;*/
         /*min-height: 250px;*/
         justify-content: center;
         box-shadow: none;
     }
+
     .login_title h1 {
         font-size: 2rem;
         border-bottom: 4px solid;
     }
+
     .f_login_text {
         font-size: 1rem;
     }
+
     .f_login_row input {
         margin-top: .6rem;
     }
+
     .f_login_row input:placeholder,
     .f_login_row input:-moz-placeholder,
     .f_login_row input:-webkit-input-placeholder,

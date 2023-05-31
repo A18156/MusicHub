@@ -1,33 +1,20 @@
 import React, {useEffect, useRef, useState} from "react";
 import "./style.css";
+import "../../App.css";
 import {Link} from "react-router-dom";
 import Logo from "../../images/logo.png";
 import {FaMusic, FaDeezer, FaRegHeart, FaChevronRight} from "react-icons/fa";
 import {AiOutlineProfile} from "react-icons/ai";
 import {BiCategory} from "react-icons/bi";
+import {useAppContext} from "../../context/AppContextProvider";
 
 const navLink = [
     {icon: <FaMusic/>, name: "new", link: "../"},
     {icon: <BiCategory/>, name: "Category", link: "../category"},
     {icon: <FaDeezer/>, name: "trend", link: "../trend"},
-    {icon: <AiOutlineProfile/>, name: "Account", link: "../account"},
     {icon: <FaRegHeart/>, name: "collection", link: "../collection"},
+    // {icon: <AiOutlineProfile/>, name: "Account", link: "../account"},
 ];
-const useClickOutside = (handler) => {
-    let domNode = useRef(null);
-    useEffect(() => {
-        let handleMouseDown = (e) => {
-            if (!domNode.current.contains(e.target)) {
-                handler();
-            }
-        }
-        document.addEventListener("mousedown", handleMouseDown);
-        return () => {
-            document.removeEventListener("mousedown", handleMouseDown);
-        };
-    });
-    return domNode;
-}
 
 function SlideBar() {
     const [open, setOpen] = useState(false);
@@ -42,20 +29,14 @@ function SlideBar() {
         setOpen(!open)
     };
 
-    const [burger_class, setBurgerClass] = useState("burger_bar unclicked");
 
     let menuRef = useRef(null);
 
-    // let domNode = useClickOutside(() => {
-    //     setOpen(!open);
-    //     console.log("abc", open)
-    // });
     return (
         <div>
             <div className={`nav_toggle`}>
                 <div className="burger_menu" onClick={() => {
                     setOpen(i => {
-                        console.log("bugger", !i);
                         return !i;
                     });
                 }}>
@@ -65,13 +46,13 @@ function SlideBar() {
                 </div>
                 {/*<div className="menu-board"></div>*/}
             </div>
-            <div className={`app_drawer ${open ? "visible" : "hidden"}`} onClick={() => {
+            <div className={`app_drawer ${open ? "opacity" : "hidden"}`} onClick={() => {
                 setOpen(i => {
                     console.log("drawer", !i);
                     return !i;
                 })
             }}></div>
-            <div className={`navigation-left ${open ? "open" : "hidden"}`}>
+            <div className={`navigation-left ${open ? "open" : ""}`}>
                 <div className="brand">
                     <div className="brand-box" onClick={() => {
                         setOpen(i => {
@@ -97,6 +78,9 @@ function SlideBar() {
                                     </Link>
                                 </li>
                             ))}
+                            <li onClick={() => toggleActive(navLink.length + 1)}>
+
+                            </li>
                         </ul>
                     </div>
                     {/*<div className="bottom-sidebar">*/}

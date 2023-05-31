@@ -22,6 +22,12 @@
     /* color: var(--text-color); */
     text-decoration: none;
 }
+.hidden{
+    display: none;
+}
+.visible{
+    display: block;
+}
 
 body {
     background: var(--bg-r-color);
@@ -40,6 +46,12 @@ body {
 .column {
     display: flex;
     flex-direction: column;
+}
+.f_row {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.2rem;
+    position: relative;
 }
 
 @media (max-width: 1024px) {

@@ -4,7 +4,7 @@ import {useAppContext} from "../../../context/AppContextProvider";
 
 const TypeOfSong = () => {
     const navigate = useNavigate();
-    const [list, setList] = React.useState([]);
+    const [typeOfSong, setTypeOfSong] = React.useState([]);
     const {api} = useAppContext();
 
     const getAll = () => {
@@ -13,18 +13,18 @@ const TypeOfSong = () => {
         api
             .get({url: "/api/songtype"})
             .then((data) => {
-                // console.table(data);
-                setList(data);
+                setTypeOfSong(Object?.values(data)[2]);
+                // console.log("test",typeOfSong);
             })
             .catch((err) => {
                 console.log(err);
             });
     }, [api]);
 
-    const handleDelete = (id) =>{
-        if(window.confirm("are you sure")){
+    const handleDelete = (id) => {
+        if (window.confirm("are you sure")) {
             console.log(id)
-            api.delete({url:"/api/songtype/"+id});
+            api.delete({url: "/api/songtype/" + id});
         }
     }
 
@@ -74,21 +74,21 @@ const TypeOfSong = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {list?.map((val, idx) => {
+                            {typeOfSong?.map((val, idx) => {
                                 return (
                                     <tr key={idx}>
                                         <td>{val.id}</td>
                                         <td>{val.name}</td>
                                         <td>
                                             <button
-                                                // to={`/admin/typeofsong/${val.id}`}
                                                 className="btn-update-admin btn btn-light"
                                                 onClick={() => navigate(`/admin/typeofsong/${val.id}`)}
                                             >
                                                 Update
                                             </button>
                                             {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
-                                            <button className="btn-delete-admin btn btn-light" onClick={() => handleDelete(val.id)}>
+                                            <button className="btn-delete-admin btn btn-light"
+                                                    onClick={() => handleDelete(val.id)}>
                                                 Delete
                                             </button>
                                             {/* <a href="#" className="btn-delete-admin btn btn-light">Delete</a> */}
