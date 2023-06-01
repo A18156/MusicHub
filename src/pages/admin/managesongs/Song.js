@@ -3,6 +3,10 @@ import {Link, useNavigate} from 'react-router-dom'
 import "./style.css";
 import {useAppContext} from "../../../context/AppContextProvider";
 import {Table} from 'antd'
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 
 const Song = () => {
     const navigate = useNavigate();
@@ -15,6 +19,8 @@ const Song = () => {
             .get({url: "/api/song"})
             .then((data) => {
                 setSong(data?.data || []);
+
+                console.log("test", song);
             })
             .catch((err) => {
                 console.log(err);
@@ -53,12 +59,43 @@ const Song = () => {
             key: 'audio',
         },
         {
+            title: 'Image',
+            dataIndex: 'image',
+            key: 'image',
+        },
+        {
+            title: 'Date upload',
+            dataIndex: 'dateUpload',
+            key: 'dateUpload',
+            render: value => <>{dayjs(value).fromNow()}</>
+        },
+        {
+            title: 'Is Public',
+            dataIndex: 'isPublic',
+            key: 'isPublic'
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
+            key: "price",
+        },
+        {
+            title: 'Song_Type ID',
+            dataIndex: 'songType',
+            key: 'songType',
+        },
+        {
+            title: 'AccountId',
+            dataIndex: 'accountid',
+            key: 'accountid',
+        },
+        {
             title: "Actions",
             render: (_, record) => {
                 return <>
                     <button
                         className="btn-update-admin btn btn-light"
-                        onClick={() => navigate(`/admin/typeofsong/${record.id}`)}
+                        onClick={() => navigate(`/admin/song/${record.id}`)}
                     >
                         Update
                     </button>
@@ -101,7 +138,7 @@ const Song = () => {
                 <section className="content">
                     <div className="container-fluid">
                         <div>
-                            <button className="btn btn-primary" onClick={() => navigate("/admin/song/addsong")}>
+                            <button className="btn btn-primary" onClick={() => navigate("addsong")}>
                                 Add Song
                             </button>
                         </div>
@@ -152,7 +189,7 @@ const Song = () => {
                         {/*    </tbody>*/}
                         {/*</table>*/}
 
-                        <Table dataSource={song} columns={columns}/>
+                        <Table dataSource={song} columns={columns} pagination={false} />
                         {/* /.row (main row) */}
                     </div>
                     {/* /.container-fluid */}

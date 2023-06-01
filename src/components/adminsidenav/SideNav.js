@@ -48,7 +48,7 @@ const SideNav = () => {
 
               {/*<li className="nav-header">Music Tracks</li>*/}
               <li className="nav-item">
-                <Link to="musictracks" className="nav-link">
+                <Link to="song" className="nav-link">
                   <i className="icon">
                     <FaMusic />{" "}
                   </i>

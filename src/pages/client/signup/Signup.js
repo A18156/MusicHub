@@ -25,7 +25,7 @@ function Signup() {
     const requestSignUp = (request) => {
         request.role = ["user"];
         api.post({url: "/api/auth/signup", body: request})
-            .then((res) => {
+            .then(() => {
                     navigate("/login");
                 }
             ).catch((e) => {

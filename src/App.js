@@ -4,6 +4,7 @@ import "./App.css";
 import Navbar from "./components/navigationbar/Navbar";
 import PlayBar from "./components/play-bar/PlayBar";
 import SlideBar from "./components/sliebar/SlideBar";
+import {useAppContext} from "./context/AppContextProvider";
 
 
 function App() {

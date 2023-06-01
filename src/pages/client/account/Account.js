@@ -5,27 +5,33 @@ import {useNavigate} from "react-router-dom";
 import {useAppContext} from "../../../context/AppContextProvider";
 import {Controller, useForm} from "react-hook-form";
 import DatePicker from "react-datepicker";
+import '../../../App.css';
+import PropTypes from "prop-types";
 
 
 const imgUrl = "../../../images/avatar/";
 
-function UpdateForm(data,isOpen) {
+function UpdateForm({data, isOpen, onClose}) {
+    const navigate = useNavigate();
     const {api} = useAppContext();
     const [err, setErr] = useState(false);
     const [message, setMessage] = useState("");
-
+    console.log(data);
+    const defaultValues = data
     const {
         control,
         register,
         handleSubmit,
         formState: {errors},
-    } = useForm(data);
+    } = useForm({defaultValues});
 
     const infoUpdate = (request)=>{
-
+        api.post({url: "/api/songtype", body: request})
+            .then((res) => {alert("add new type of song success");
+                navigate("/admin/typeofsong");});
     }
     return (
-        <div className={`update_f ${isOpen? "visible" : "hidden"}`} style={{position: "fixed",zIndex: 100}}>
+        <div className={`update_f ${isOpen ? "visible" : "hidden"}`} style={{position: "fixed",zIndex: 100}}>
             <form className="update_container" onSubmit={handleSubmit(infoUpdate)}>
                 <div className="f_signup_content">
                     <div className="signup_title">
@@ -35,7 +41,8 @@ function UpdateForm(data,isOpen) {
                     <div className="f_signup_row">
                         <input
                             placeholder="your name"
-                            defaultValue={data.name}
+                            defaultValue={defaultValues.name}
+                            onChange={e=> e.target.value}
                             {...register("name", {
                                 required: "*This is required",
                                 minLength: {value: 3, message: "*Min length is 3"},
@@ -48,16 +55,18 @@ function UpdateForm(data,isOpen) {
                         <Controller
                             control={control}
                             name="birthday"
+                            defaultValue={defaultValues.birthday}
                             rules={{
                                 required: "*This field is required"
                             }}
                             render={({field}) => (
                                 <>
                                     <DatePicker
+                                        placeholderText='Select date'
                                         onChange={(date) => {
                                             field.onChange(date ? date.valueOf() : null);
                                         }}
-                                        // selected={date.birthday}
+                                        selected={field.value}
                                         peekNextMonth
                                         showMonthDropdown
                                         showYearDropdown
@@ -109,16 +118,24 @@ function UpdateForm(data,isOpen) {
                     </div>
                     <div>
                         <input type="submit" value="OK"/>
-                        <input type="button" value="Cancel" onClick={() => isOpen = false}/>
+                        <input type="button" value="Cancel" onClick={() => {
+                            console.warn("i am here")
+                            onClose();
+                        }}/>
                     </div>
                 </div>
             </form>
         </div>
     )
 }
-
+UpdateForm.propTypes = {
+    data: PropTypes.object,
+    isOpen: PropTypes.bool,
+    onClose: PropTypes.func,
+}
+//Account
 function Account() {
-    const {api} = useAppContext();
+    const {api, isLogin} = useAppContext();
     const [userName, setUsername] = useState("");
     const [userBirthday, setUserBirthday] = useState("");
     const [email, setEmail] = useState("");
@@ -153,6 +170,14 @@ function Account() {
             });
     }, []);
     const navigate = useNavigate();
+
+
+    React.useEffect(() => {
+        if (!isLogin) {
+            navigate("/");
+        }
+    }, [isLogin, navigate]);
+
     return (
         <div className='account-container' >
             <div className='account-content'>
@@ -171,7 +196,10 @@ function Account() {
                     </li>
                 </ul>
             </div>
-            <UpdateForm data={infoData} open={openUpdate}></UpdateForm>
+            <UpdateForm data={infoData} isOpen={openUpdate} onClose={() => {
+                console.warn("i am there")
+                setOpenUpdate(false)
+            }}/>
         </div>
     )
 }

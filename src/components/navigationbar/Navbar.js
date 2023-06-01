@@ -42,7 +42,7 @@ function Navbar() {
                 .get({url: "/api/auth/me"})
                 .then((data) => {
                     // console.log("data", data);
-                    setAvatarImg(avatarUrl + data?.avatar);
+                    setAvatarImg(data?.avatar);
                     console.log(avatarImg)
                 })
                 .catch((err) => {
@@ -76,7 +76,7 @@ function Navbar() {
                             <>
                                 <>
                                     <div className="user">
-                                        <img src={avatarImg} alt="abc" onClick={() => setIsDropMenuOpen(i => {
+                                        <img src={`/images/avatar/${avatarImg}`} alt="abc" onClick={() => setIsDropMenuOpen(i => {
                                             // console.log(i);
                                             return !i
                                         })}/>

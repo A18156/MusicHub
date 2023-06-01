@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Logo from "../../../images/logo.png"
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate, useParams} from 'react-router-dom'
 import {Controller, useForm} from "react-hook-form";
 import {useAppContext} from "../../../context/AppContextProvider";
 import {Breadcrumb, Button, DatePicker, Form, Input, message, notification, Select, Space} from "antd";
@@ -8,30 +8,43 @@ import dayjs from "dayjs";
 import AccountForm from "./AccountForm";
 
 
-const Addaccount = () => {
-
+const UpdateAccount = ({}) => {
     const navigate = useNavigate();
     const {api} = useAppContext();
+    const {id} = useParams()
 
-    const initialValues = {
-        birthday: dayjs(),
-        gender: 1,
-        role: "user",
-        active: true
-    }
+    const [account, setAccount] = React.useState()
+    React.useEffect(() => {
+        const onError = e => {
+            console.error("[UpdateAccount]", "useEffect", e)
+            notification.error({message: "ERROR", description: `Not found account [id=${id}]`})
+            onBack()
+        }
+        try {
+            api.get({url: `/api/auth/get-by-id/${parseInt(id)}`})
+                .then(data => {
+                    setAccount({...data, birthday: dayjs(data.birthday, "YYYY-MM-DD")})
+                })
+                .catch(e => {
+                    onError(e)
+                })
+        } catch (e) {
+            onError(e)
+        }
+    }, [id])
 
     const onFinishFailed = e => {
-        console.error("[create account]", e)
+        console.error("[update account]", e)
         notification.error({
-            message: "ERROR", description: "Create account failed!",
+            message: "ERROR", description: "Update account failed!",
             placement: "bottomLeft"
         })
     }
 
     const onFinish = values => {
-        console.debug("[create account]", values)
-        return api.post({
-            url: "/api/auth/create-account", body: {
+        console.debug("[update account]", values)
+        return api.put({
+            url: `/api/auth/update-account/${account?.id}`, body: {
                 ...values,
                 birthday: values.birthday.format("YYYY-MM-DD")
             }
@@ -39,7 +52,7 @@ const Addaccount = () => {
             .then(() => {
                 notification.success({
                     message: "SUCCESS",
-                    description: "Create account successful!",
+                    description: "Update account successful!",
                     placement: "bottomLeft"
                 })
                 onBack()
@@ -71,12 +84,13 @@ const Addaccount = () => {
                         {/* /.row */}
                         <div className="container">
                             <div className="row justify-content-around">
-                                <AccountForm
-                                    initialValues={initialValues}
+                                {account && <AccountForm
+                                    update={true}
+                                    initialValues={account}
                                     onFinish={onFinish}
                                     onFinishFailed={onFinishFailed}
                                     onCancel={onBack}
-                                />
+                                />}
                             </div>
 
                         </div>
@@ -89,4 +103,4 @@ const Addaccount = () => {
     )
 }
 
-export default Addaccount
+export default UpdateAccount

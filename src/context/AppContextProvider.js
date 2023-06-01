@@ -141,14 +141,16 @@ const initState = () => {
                 "Content-Type": "application/json",
             },
             credentials: "include",
-        }).finally(() => {
-            setState((prev) => ({
-                ...prev,
-                isInitialized: true,
-                isLogin: false,
-                user: null,
-            }));
-        });
+        })
+            .catch()
+            .finally(() => {
+                setState((prev) => ({
+                    ...prev,
+                    isInitialized: true,
+                    isLogin: false,
+                    user: null,
+                }));
+            });
     };
 
     return {

@@ -56,7 +56,7 @@ function ChangePwd() {
                     </div>
                     <div className="changePwd_row">
                         <input
-                            placeholder="New Password"
+                            placeholder="News Password"
                             type="password"
                             {...register("newPassword", {
                                 required: "*This is required",

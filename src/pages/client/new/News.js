@@ -40,7 +40,7 @@ const type = [
     {type: "hip hop"},
 ];
 
-function New() {
+function News() {
     const [selectAlbum, setSelectAlbum] = useState(0);
 
     const [activeTab, setActiveTab] = useState(0);
@@ -119,4 +119,4 @@ function New() {
     );
 }
 
-export default New;
+export default News;

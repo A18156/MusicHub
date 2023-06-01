@@ -1,7 +1,131 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import {Button, Checkbox, Image, Modal, notification, Table, Tag} from 'antd'
+import {useAppContext} from "../../../context/AppContextProvider";
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(relativeTime)
 
 const ManageUserAccounts = () => {
+    const navigate = useNavigate();
+    const [userData, setUserData] = useState([]);
+    const {api} = useAppContext();
+
+    function fetchData() {
+        api
+            .get({url: "/api/auth/all-user"})
+            .then((data) => {
+                setUserData(data?.data || []);
+                console.log("test", userData);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    function handleDeleteAccount(id) {
+        Modal.confirm({
+            content: `Delete account [id=${id}]?`,
+            onOk: () => api
+                .delete({url: `/api/auth/delete-account/${id}`})
+                .then((data) => {
+                    notification.success({message: "SUCCESS", description: `Delete account [id=${id}] successful`})
+                    fetchData()
+                })
+                .catch((err) => {
+                    notification.error({message: "ERROR", description: `Delete account [id=${id}] failed`})
+                }),
+        })
+    }
+
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'avatar',
+            key: 'avatar',
+            render: src => <Image src={`/images/avatar/${src}`} width={50}/>
+        },
+        {
+            title: 'Username',
+            dataIndex: 'username',
+            key: 'username',
+        },
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: 'Active',
+            dataIndex: 'active',
+            key: 'active',
+            render: val => <>{val ? <Tag color={"green"}>ACTIVE</Tag> : <Tag color={"red"}>INACTIVE</Tag>}</>
+        },
+        // {
+        //     title: 'Role',
+        //     dataIndex: 'roles',
+        //     key: 'roles',
+        //     render: (roles) => <>{roles?.[0]?.name}</>
+        // },
+        {
+            title: 'Artist',
+            dataIndex: 'artist',
+            key: 'artist',
+            render: val => <Checkbox checked={val} readOnly/>
+        },
+        {
+            title: 'Phone',
+            dataIndex: 'phone',
+            key: 'phone',
+        },
+        {
+            title: 'Mail',
+            dataIndex: 'email',
+            key: "email",
+        },
+        {
+            title: 'Gender',
+            dataIndex: 'gender',
+            key: 'gender',
+            render: value => value ? "Male" : "Female"
+        },
+        {
+            title: 'Birthday',
+            dataIndex: 'birthday',
+            key: 'birthday',
+        },
+        {
+            title: 'Date Register',
+            dataIndex: 'dateRegister',
+            key: 'dateRegister',
+            render: value => <>{dayjs(value).fromNow()}</>
+        },
+        {
+            title: "Actions",
+            fixed: 'right',
+            width: 150,
+            render: (_, record) => {
+                return <>
+                    <Button
+                        type={"primary"}
+                        onClick={() => navigate(`/admin/manageaccount/edit/${record.accountID}`)}
+                    >
+                        Update
+                    </Button>
+                    {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
+                    <Button danger
+                            onClick={() => handleDeleteAccount(record.accountID)}>
+                        Delete
+                    </Button>
+                </>
+            }
+        }
+    ];
+
+    React.useEffect(() => {
+        fetchData()
+    }, [])
     return (
         <div>
             <div className="content-wrapper">
@@ -11,69 +135,36 @@ const ManageUserAccounts = () => {
                         <div className="row mb-2">
                             <div className="col-sm-6">
                                 <h1 className="m-0 title-color">Account</h1>
-                            </div>{/* /.col */}
+                            </div>
+                            {/* /.col */}
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">
                                     <Link to="" className="breadcrumb-item">Account</Link>
                                     <li className="breadcrumb-item active">Home</li>
                                 </ol>
-                            </div>{/* /.col */}
-                        </div>{/* /.row */}
-                    </div>{/* /.container-fluid */}
+                            </div>
+                            {/* /.col */}
+                        </div>
+                        {/* /.row */}
+                    </div>
+                    {/* /.container-fluid */}
                 </div>
                 {/* /.content-header */}
                 {/* Main content */}
                 <section className="content">
                     <div className="container-fluid">
-                        <div>
-                            <Link to="../../addaccount"  >
-                                <p className="btn btn-primary">Add Account</p>
-                            </Link>
+                        <div style={{marginBottom: 10}}>
+                            <button className="btn btn-primary" onClick={() => navigate("addaccount")}>
+                                Add Account
+                            </button>
                         </div>
-                        {/* <br /> */}
-                        <table className="tbl-full table table-striped ">
-                            <thead >
-                                <tr >
-                                    <th>No. </th>
-                                    <th>Full Name</th>
-                                    <th>Date Of Birth</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
-                                    <th>Avatart</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                    <th>Role Name</th>
-                                    <th>Register Date</th>
-                                    <th>Singer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <tr >
-                                    <td>1.</td>
-                                    <td>J9</td>
-                                    <td>9/6/96</td>
-                                    <td>0123456789</td>
-                                    <td>nvtquoca18155@cusc.ctu.edu.vn</td>
-                                    <td>link</td>
-                                    <td>j929</td>
-                                    <td>123456</td>
-                                    <td>User</td>
-                                    <td>24/10/2022</td>
-                                    <td>None</td>
-                                    <td>
-                                        <Link to="../../addtracks" className="btn-update-admin btn btn-light">Update</Link>
-                                        {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
-                                        <Link to="" className="btn-delete-admin btn btn-light">Delete</Link>
-                                        {/* <a href="#" className="btn-delete-admin btn btn-light">Delete</a> */}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-                        {/* /.row (main row) */}
-                    </div>{/* /.container-fluid */}
+                        <Table dataSource={userData}
+                               columns={columns}
+                               scroll={{x: true}}
+                               pagination={false}
+                        />
+                    </div>
+                    {/* /.container-fluid */}
                 </section>
                 {/* /.content */}
             </div>

@@ -1,69 +1,55 @@
-import React, {useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import React from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Logo from "../../../images/logo.png";
-import {useForm, Controller, useController} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {useAppContext} from "../../../context/AppContextProvider";
-import {Multiselect} from 'multiselect-react-dropdown';
-import "../../../App.css";
-import moment from "moment";
+import moment from "moment/moment";
 
-const AddSong = () => {
-    const defaultValues = {
-        title: "",
-        audio: "",
-        dateUpload: "",
-        image: "",
-        price: "",
-        isPublic: "true",
-        accountid: {},
-        songType: {}
-    }
-
+const UpdateSongType = () => {
     const {
         register,
         handleSubmit,
         formState: {errors},
-        setValue,
-        control, t
-    } = useForm({
-        defaultValues
-    });
-
+    } = useForm();
+    const {id} = useParams();
+    const [updateSongData, setUpdateSongData] = React.useState([]);
 
     const navigate = useNavigate();
     const {api, user} = useAppContext();
-    const [test, setTest] = React.useState();
-
-    const handleValue = (e) => {
-        setTest(e.target.value);
-        console.log(test);
-
-    }
-
     const [songOfType, setSongOfType] = React.useState([]);
-    let arrayType = [];
     React.useEffect(() => {
+        api
+            .get({url: "/api/song/" + id})
+            .then((data) => {
+                setUpdateSongData(data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         api
             .get({url: "/api/songtype"})
             .then((data) => {
                 let getListSongotType = data;
-                setSongOfType(data?.data || []);
-                const current = new Date();
-                const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-                defaultValues.dateUpload = date;
-                // console.log(defaultValues.dateUpload);
+                setSongOfType(Object?.values(data)[2]);
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
 
+    // const boodyRequest = (request) => {
+    //     api.put({url: "/api/song/"+id, body: request})
+    //         .then((res) => {
+    //             alert("update song success");
+    //             navigate("/admin/song");
+    //         })
+    // }
     const upload = file => {
         console.debug("[upload]", file)
         return api.upload(file)
             .then((res) => Promise.resolve(res.data))
     }
-    const onAddSong = (formValues) => {
+    const boodyRequest = (formValues) => {
         console.debug("[add-song]", 'form', formValues)
         const audioFile = formValues?.audio[0];
         const imageFile = formValues?.image[0];
@@ -112,39 +98,27 @@ const AddSong = () => {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-sm-8">
-                                <ol className="breadcrumb float-sm-right">
-                                    <Link to="" className="breadcrumb-item">
-                                        Create
-                                    </Link>
-                                    <li className="breadcrumb-item active">
-                                        <Link
-                                            to="../admin/musictracks"
-                                            className="breadcrumb-item edit-top-link"
-                                        >
-                                            Song
-                                        </Link>
-                                    </li>
-                                    <li className="breadcrumb-item active">
-                                        <Link
-                                            to="../../admin"
-                                            className="breadcrumb-item edit-top-link"
-                                        >
-                                            Home
-                                        </Link>
-                                    </li>
-                                </ol>
-                            </div>
-                            {/* /.col */}
                         </div>
                         {/* /.row */}
                         <div className="container">
                             <div className="row justify-content-around">
-                                <form className="col-md-6 bg-light p-3 my-3" onSubmit={handleSubmit(onAddSong)}>
+                                <form className="col-md-6 bg-light p-3 my-3" onSubmit={handleSubmit(boodyRequest)}>
                                     <h1 className="text-center text-uppercase h3 py-3">
-                                        Add Song
+                                        Update Song
                                     </h1>
-
+                                    <div className="form-group">
+                                        <label htmlFor="songid">
+                                            ID
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="id"
+                                            id="songid"
+                                            className="form-control"
+                                            disabled={true}
+                                            defaultValue={id}
+                                        />
+                                    </div>
                                     <div className="form-group">
                                         <label htmlFor="name">Title</label>
                                         <input
@@ -152,6 +126,7 @@ const AddSong = () => {
                                             name="name"
                                             id="name"
                                             className="form-control"
+                                            defaultValue={updateSongData.title}
                                             {...register("title", {
                                                 required: "*This is required",
                                                 minLength: {value: 2, message: "*Min length is 2"},
@@ -186,6 +161,7 @@ const AddSong = () => {
                                             name="audio"
                                             id="audio"
                                             className="form-control"
+                                            defaultValue={updateSongData.audio}
                                             accept={".mp3,.wav"}
                                             // className="form-control"
                                             {...register("audio", {
@@ -201,12 +177,14 @@ const AddSong = () => {
                                             name="image"
                                             id="image"
                                             className="form-control"
+                                            defaultValue={updateSongData.image}
                                             accept={".png,.jpg,.jpeg,.jfif,.pjpeg,.pjp,.webp"}
                                             {...register("image", {
                                                 required: "*This is required",
                                             })}
                                             // onChange={handlePreviewImg}
                                         />
+                                        <span style={{marginTop: "10px"}}>upload before: {updateSongData.image}</span>
                                     </div>
                                     <p>{errors.image?.message}</p>
 
@@ -216,6 +194,7 @@ const AddSong = () => {
                                             name="isPublic"
                                             id="isPublic"
                                             className="form-control"
+                                            defaultValue={updateSongData.isPublic}
                                             {...register("isPublic", {
                                                 required: "*This is required",
                                             })}
@@ -232,6 +211,7 @@ const AddSong = () => {
                                             name="price"
                                             id="price"
                                             className="form-control"
+                                            defaultValue={updateSongData.price}
                                             {...register("price", {
                                                 required: "*This is required",
                                             })}
@@ -261,14 +241,14 @@ const AddSong = () => {
                                         className="btn-primary btn btn-block"
                                     />
                                 </form>
+
                             </div>
                         </div>
                     </div>
-                    {/* /.container-fluid */}
                 </div>
             </div>
         </div>
     );
 };
 
-export default AddSong;
+export default UpdateSongType;

@@ -4,7 +4,7 @@ import Logo from "../../../images/logo.png";
 import {useForm} from "react-hook-form";
 import {useAppContext} from "../../../context/AppContextProvider";
 
-const AddSongType = () => {
+const UpdateSongType = () => {
     const {
         register,
         handleSubmit,
@@ -28,7 +28,7 @@ const AddSongType = () => {
     const boodyRequest = (request) => {
         api.put({url: "/api/songtype/"+id, body: request})
             .then((res) => {
-                alert("add new type of song success");
+                alert("update type of song success");
                 navigate("/admin/typeofsong");
             })
     }
@@ -135,4 +135,4 @@ const AddSongType = () => {
     );
 };
 
-export default AddSongType;
+export default UpdateSongType;
