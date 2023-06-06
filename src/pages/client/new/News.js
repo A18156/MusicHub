@@ -96,7 +96,7 @@ function News() {
                                 <div className="box-container">
                                     {getSong && getSong?.map((val, idx) => (
                                         <div key={idx} className="new-box">
-                                            <img src={`./images/all/${val.image}`} alt={"img" + idx}/>
+                                            <img src={`/files/${val.image}`} alt={"img" + idx}/>
                                             <div className="title_column">
                                                 <h3>{val.title}</h3>
                                             </div>

@@ -186,6 +186,7 @@ const UpdateSongType = () => {
                                             // onChange={handlePreviewImg}
                                         />
                                         <span style={{marginTop: "10px"}}>upload before: {updateSongData.image}</span>
+                                        <img src={`/files/${updateSongData.image}`} width={100}/>
                                     </div>
                                     <p>{errors.image?.message}</p>
 

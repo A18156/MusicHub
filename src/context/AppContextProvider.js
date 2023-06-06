@@ -17,7 +17,7 @@ const createAPI = () => {
         while (url.startsWith("/")) {
             url = url.substring(1);
         }
-        let absoluteUrl = "http://localhost:8080/" + url;
+        let absoluteUrl =  url;
         if (params) {
             absoluteUrl += "?" + new URLSearchParams(params).toString();
         }
@@ -52,7 +52,7 @@ const createAPI = () => {
         upload: (file) => {
             const formData = new FormData();
             formData.append("file", file)
-            return fetch("http://localhost:8080/api/file/upload", {
+            return fetch("/api/file/upload", {
                 method: 'POST',
                 body: formData,
                 credentials: "include",
@@ -80,7 +80,7 @@ const initState = () => {
 
     React.useEffect(() => {
         // call api check login?? /user/me
-        fetch("http://localhost:8080/api/auth/me", {
+        fetch("/api/auth/me", {
             method: "GET",
             headers: {"Content-Type": "application/json"},
             credentials: "include",
@@ -113,7 +113,7 @@ const initState = () => {
     }, []);
 
     const signIn = ({username, password}) => {
-        return fetch("http://localhost:8080/api/auth/signin", {
+        return fetch("/api/auth/signin", {
             method: "POST",
             body: JSON.stringify({username, password}),
             headers: {
@@ -135,7 +135,7 @@ const initState = () => {
     };
 
     const signOut = () => {
-        return fetch("http://localhost:8080/api/auth/signout", {
+        return fetch("/api/auth/signout", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

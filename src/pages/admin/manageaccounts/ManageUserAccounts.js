@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-import {Button, Checkbox, Image, Modal, notification, Table, Tag} from 'antd'
+import {Avatar, Button, Checkbox, Image, Modal, notification, Table, Tag} from 'antd'
 import {useAppContext} from "../../../context/AppContextProvider";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -11,10 +11,10 @@ dayjs.extend(relativeTime)
 const ManageUserAccounts = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState([]);
-    const {api,user} = useAppContext();
-    const [hidden, setHidden] = useState(false);
+    const {api, user} = useAppContext();
     const [role, setRole] = useState([]);
 
+    const hidden = user?.role?.[0].name !== "ROLE_ADMIN"
 
     function fetchData() {
         api
@@ -48,7 +48,7 @@ const ManageUserAccounts = () => {
             title: '#',
             dataIndex: 'avatar',
             key: 'avatar',
-            render: src => <Image src={`/images/avatar/${src}`} width={50}/>
+            render: (src, {name}) => <Avatar src={`/images/avatar/${src}`} shape="square" size={64}>{name}</Avatar>
         },
         {
             title: 'Username',
@@ -66,12 +66,12 @@ const ManageUserAccounts = () => {
             key: 'active',
             render: val => <>{val ? <Tag color={"green"}>ACTIVE</Tag> : <Tag color={"red"}>INACTIVE</Tag>}</>
         },
-        // {
-        //     title: 'Role',
-        //     dataIndex: 'roles',
-        //     key: 'roles',
-        //     render: (roles) => <>{roles?.[0]?.name}</>
-        // },
+        {
+            title: 'Role',
+            dataIndex: 'roles',
+            key: 'roles',
+            render: (roles) => <>{roles?.[0]?.name}</>
+        },
         {
             title: 'Artist',
             dataIndex: 'artist',
@@ -108,13 +108,13 @@ const ManageUserAccounts = () => {
         {
             title: "Actions",
             fixed: 'right',
-            width: 150,
+            width: 500,
             render: (_, record) => {
                 return <>
                     <Button
 
                         type={"primary"}
-                        className={` ${hidden? "" : "hidden"}`}
+                        className={` ${hidden ? "" : "hidden"}`}
 
                         onClick={() => navigate(`/admin/manageaccount/edit/${record.accountID}`)}
                     >
@@ -122,7 +122,7 @@ const ManageUserAccounts = () => {
                     </Button>
                     {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
                     <Button danger
-                            className={` ${hidden? "" : "hidden"}`}
+                            className={` ${hidden ? "" : "hidden"}`}
                             onClick={() => handleDeleteAccount(record.accountID)}>
                         Delete
                     </Button>
@@ -132,23 +132,6 @@ const ManageUserAccounts = () => {
     ];
 
     React.useEffect(() => {
-
-            api
-                .get({url: "/api/auth/me"})
-                .then((data) => {
-                    setRole(data?.roles)
-                    // console.debug("data", Object.values(data.roles[0]));
-                    role.map((val)=>{
-                        if(val !== "ROLE_ADMIN"){
-                            setHidden(true);
-                            console.log("role", val);
-                        }
-                    })
-                    // if(data.data.roles)
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
         fetchData()
     }, [])
     return (
@@ -179,7 +162,8 @@ const ManageUserAccounts = () => {
                 <section className="content">
                     <div className="container-fluid">
                         <div style={{marginBottom: 10}}>
-                            <button className={`btn btn-primary ${hidden? "" : "hidden"}`} onClick={() => navigate("addaccount")}>
+                            <button className={`btn btn-primary ${hidden ? "" : "hidden"}`}
+                                    onClick={() => navigate("addaccount")}>
                                 Add Account
                             </button>
                         </div>
