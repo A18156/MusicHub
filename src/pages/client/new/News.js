@@ -7,6 +7,7 @@ import img3 from "../../../images/album/album3.jpg";
 import imgt1 from "../../../images/tracks/track1.jfif";
 import imgt2 from "../../../images/tracks/track2.png";
 import imgt3 from "../../../images/tracks/track3.jpg";
+import {useAppContext} from "../../../context/AppContextProvider";
 // import headerImg from "../../../images/Wallpaper-Engine-Steam-App.jpg";
 
 const data = [
@@ -47,6 +48,19 @@ function News() {
     const toggleTab = (idx) => {
         setActiveTab(idx);
     };
+    const{api} =useAppContext();
+    const [getSong,setGetSong] = useState([]);
+    React.useEffect(() => {
+        api
+            .get({url: "/api/song"})
+            .then((data) => {
+              setGetSong(data.data);
+              console.log(data.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, [])
     return (
         <>
             {/* <div className="header-img">
@@ -80,12 +94,11 @@ function News() {
                         >
                             <div className="songs">
                                 <div className="box-container">
-                                    {datat.map((val, idx) => (
+                                    {getSong && getSong?.map((val, idx) => (
                                         <div key={idx} className="new-box">
-                                            <img src={val.img} alt={"img" + idx}/>
+                                            <img src={`./images/all/${val.image}`} alt={"img" + idx}/>
                                             <div className="title_column">
-                                                <h3>track 1</h3>
-                                                <p>singer</p>
+                                                <h3>{val.title}</h3>
                                             </div>
                                         </div>
                                     ))}

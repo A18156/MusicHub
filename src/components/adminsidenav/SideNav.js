@@ -38,16 +38,6 @@ const SideNav = () => {
             >
               {/*<li className="nav-header">Music Tracks</li>*/}
               <li className="nav-item">
-                <Link to="musictracks" className="nav-link">
-                  <i className="icon">
-                    <FaMusic />{" "}
-                  </i>
-                  <p>Artist</p>
-                </Link>
-              </li>
-
-              {/*<li className="nav-header">Music Tracks</li>*/}
-              <li className="nav-item">
                 <Link to="song" className="nav-link">
                   <i className="icon">
                     <FaMusic />{" "}
@@ -67,41 +57,41 @@ const SideNav = () => {
 
               {/* Album */}
               {/*<li className="nav-header">Album</li>*/}
-              <li className="nav-item">
-                <Link to="albums" className="nav-link">
-                  <i className="icon">
-                    <BiPhotoAlbum />{" "}
-                  </i>
-                  <p>Album</p>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="typeofalbum" className="nav-link">
-                  <i className="icon">
-                    <IoIosAlbums />{" "}
-                  </i>
-                  <p>Type Of Album</p>
-                </Link>
-              </li>
+              {/*<li className="nav-item">*/}
+              {/*  <Link to="albums" className="nav-link">*/}
+              {/*    <i className="icon">*/}
+              {/*      <BiPhotoAlbum />{" "}*/}
+              {/*    </i>*/}
+              {/*    <p>Album</p>*/}
+              {/*  </Link>*/}
+              {/*</li>*/}
+              {/*<li className="nav-item">*/}
+              {/*  <Link to="typeofalbum" className="nav-link">*/}
+              {/*    <i className="icon">*/}
+              {/*      <IoIosAlbums />{" "}*/}
+              {/*    </i>*/}
+              {/*    <p>Type Of Album</p>*/}
+              {/*  </Link>*/}
+              {/*</li>*/}
 
               {/*<li className="nav-header">Payment</li>*/}
-              <li className="nav-item">
-                <Link to="premium" className="nav-link">
-                  <i className="icon">
-                    <SiAdobepremierepro />{" "}
-                  </i>
-                  <p>Premium</p>
-                </Link>
-              </li>
+              {/*<li className="nav-item">*/}
+              {/*  <Link to="premium" className="nav-link">*/}
+              {/*    <i className="icon">*/}
+              {/*      <SiAdobepremierepro />{" "}*/}
+              {/*    </i>*/}
+              {/*    <p>Premium</p>*/}
+              {/*  </Link>*/}
+              {/*</li>*/}
 
-              <li className="nav-item">
-                <Link to="songpurchase" className="nav-link">
-                  <i className="icon">
-                    <BiPurchaseTagAlt />{" "}
-                  </i>
-                  <p>Song Purchase</p>
-                </Link>
-              </li>
+              {/*<li className="nav-item">*/}
+              {/*  <Link to="songpurchase" className="nav-link">*/}
+              {/*    <i className="icon">*/}
+              {/*      <BiPurchaseTagAlt />{" "}*/}
+              {/*    </i>*/}
+              {/*    <p>Song Purchase</p>*/}
+              {/*  </Link>*/}
+              {/*</li>*/}
 
               <li className="nav-header">Users</li>
               <li className="nav-item">

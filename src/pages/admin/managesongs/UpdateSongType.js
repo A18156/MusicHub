@@ -27,7 +27,7 @@ const UpdateSongType = () => {
     }, [api]);
     const boodyRequest = (request) => {
         api.put({url: "/api/songtype/"+id, body: request})
-            .then((res) => {
+            .then(() => {
                 alert("update type of song success");
                 navigate("/admin/typeofsong");
             })

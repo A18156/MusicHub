@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SlideBar from "../../../components/sliebar/SlideBar";
 import { useAppContext } from "../../../context/AppContextProvider";
 import "./style.css";
@@ -20,8 +20,6 @@ function Login() {
   React.useEffect(() => {
     if (isLogin) {
       navigate("/");
-    }else {
-      setLoginErr(true);
     }
   }, [isLogin, navigate]);
 
@@ -37,8 +35,10 @@ function Login() {
             }
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((e) => {
+          // console.log(error);
+          setLoginErr(true)
+          setErrMessage(e.message);
         });
   };
   return (
@@ -55,13 +55,13 @@ function Login() {
                   placeholder="username"
                   {...register("username", {
                     required: "*This is required",
-                    minLength: { value: 4, message: "*Min length is 4" },
+                    minLength: { value: 3, message: "*Min length is 4" },
                     maxLength: { value: 20, message: "*Max length is 20" },
                   })}
               />
               <p className="f_login_validation">{errors.username?.message}</p>
             </div>
-            <div className="f_login_row">
+            <div className="f_login_row" style={{marginTop: "20px"}}>
               <input
                   type="password"
                   placeholder="password"

@@ -4,20 +4,24 @@ import {Button, Checkbox, Image, Modal, notification, Table, Tag} from 'antd'
 import {useAppContext} from "../../../context/AppContextProvider";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime'
+import "../../../App.css";
 
 dayjs.extend(relativeTime)
 
 const ManageUserAccounts = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState([]);
-    const {api} = useAppContext();
+    const {api,user} = useAppContext();
+    const [hidden, setHidden] = useState(false);
+    const [role, setRole] = useState([]);
+
 
     function fetchData() {
         api
             .get({url: "/api/auth/all-user"})
             .then((data) => {
                 setUserData(data?.data || []);
-                console.log("test", userData);
+                // console.log("test", userData);
             })
             .catch((err) => {
                 console.log(err);
@@ -108,13 +112,17 @@ const ManageUserAccounts = () => {
             render: (_, record) => {
                 return <>
                     <Button
+
                         type={"primary"}
+                        className={` ${hidden? "" : "hidden"}`}
+
                         onClick={() => navigate(`/admin/manageaccount/edit/${record.accountID}`)}
                     >
                         Update
                     </Button>
                     {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
                     <Button danger
+                            className={` ${hidden? "" : "hidden"}`}
                             onClick={() => handleDeleteAccount(record.accountID)}>
                         Delete
                     </Button>
@@ -124,6 +132,23 @@ const ManageUserAccounts = () => {
     ];
 
     React.useEffect(() => {
+
+            api
+                .get({url: "/api/auth/me"})
+                .then((data) => {
+                    setRole(data?.roles)
+                    // console.debug("data", Object.values(data.roles[0]));
+                    role.map((val)=>{
+                        if(val !== "ROLE_ADMIN"){
+                            setHidden(true);
+                            console.log("role", val);
+                        }
+                    })
+                    // if(data.data.roles)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         fetchData()
     }, [])
     return (
@@ -154,7 +179,7 @@ const ManageUserAccounts = () => {
                 <section className="content">
                     <div className="container-fluid">
                         <div style={{marginBottom: 10}}>
-                            <button className="btn btn-primary" onClick={() => navigate("addaccount")}>
+                            <button className={`btn btn-primary ${hidden? "" : "hidden"}`} onClick={() => navigate("addaccount")}>
                                 Add Account
                             </button>
                         </div>

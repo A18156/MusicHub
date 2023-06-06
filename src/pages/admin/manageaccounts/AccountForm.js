@@ -10,7 +10,8 @@ const AccountForm = ({initialValues, onFinish, onFinishFailed, onCancel, update 
               style={{width: "60%"}}
               initialValues={initialValues}
             // autoComplete={"off"}
-              onFinish={onFinish} onFinishFailed={onFinishFailed}>
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}>
             <Form.Item
                 label="Username"
                 name="username"

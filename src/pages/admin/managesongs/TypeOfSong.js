@@ -1,31 +1,74 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppContext} from "../../../context/AppContextProvider";
+import {Button, Modal, notification, Table} from "antd";
+import dayjs from "dayjs";
 
 const TypeOfSong = () => {
     const navigate = useNavigate();
     const [typeOfSong, setTypeOfSong] = React.useState([]);
     const {api} = useAppContext();
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: 'Type',
+            dataIndex: 'name',
+            key: 'name',
+        },
+        {
+            title: "Actions",
+            width: 150,
+            render: (_, record) => {
+                return <>
+                    <Button
+                        type={"primary"}
+                        onClick={() => navigate(`/admin/typeofsong/${record.id}`)}
+                    >
+                        Update
+                    </Button>
+                    {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
+                    <Button danger
+                            onClick={() => handleDeleteType(record.id)}>
+                        Delete
+                    </Button>
+                </>
+            }
+        }
+    ];
 
-    const getAll = () => {
-    }
-    React.useEffect(() => {
+    function fetchData() {
         api
             .get({url: "/api/songtype"})
             .then((data) => {
-                setTypeOfSong(Object?.values(data)[2]);
+                setTypeOfSong(data.data);
                 // console.log("test",typeOfSong);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [api]);
+    }
 
-    const handleDelete = (id) => {
-        if (window.confirm("are you sure")) {
-            console.log(id)
-            api.delete({url: "/api/songtype/" + id});
-        }
+    React.useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleDeleteType = (id) => {
+        Modal.confirm({
+            content: `Delete type [id=${id}]?`,
+            onOk: () => api
+                .delete({url: `/api/songtype/${id}`})
+                .then((data) => {
+                    notification.success({message: "SUCCESS", description: `Delete type [id=${id}] successful`})
+                    fetchData()
+                })
+                .catch((err) => {
+                    notification.error({message: "ERROR", description: `Delete type [id=${id}] failed`})
+                }),
+        })
     }
 
 
@@ -64,43 +107,13 @@ const TypeOfSong = () => {
                             >Add Song Type
                             </button>
                         </div>
-                        {/* <br /> */}
-                        <table className="tbl-full table table-striped ">
-                            <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Song Type</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {typeOfSong?.map((val, idx) => {
-                                return (
-                                    <tr key={idx}>
-                                        <td>{val.id}</td>
-                                        <td>{val.name}</td>
-                                        <td>
-                                            <button
-                                                className="btn-update-admin btn btn-light"
-                                                onClick={() => navigate(`/admin/typeofsong/${val.id}`)}
-                                            >
-                                                Update
-                                            </button>
-                                            {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
-                                            <button className="btn-delete-admin btn btn-light"
-                                                    onClick={() => handleDelete(val.id)}>
-                                                Delete
-                                            </button>
-                                            {/* <a href="#" className="btn-delete-admin btn btn-light">Delete</a> */}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                            </tbody>
-                        </table>
-
-                        {/* /.row (main row) */}
+                        <Table dataSource={typeOfSong}
+                               columns={columns}
+                               scroll={{x: true}}
+                               pagination={false}
+                        />
                     </div>
+
                     {/* /.container-fluid */}
                 </section>
                 {/* /.content */}

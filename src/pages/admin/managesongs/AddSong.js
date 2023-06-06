@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Logo from "../../../images/logo.png";
-import {useForm, Controller, useController} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {useAppContext} from "../../../context/AppContextProvider";
-import {Multiselect} from 'multiselect-react-dropdown';
 import "../../../App.css";
 import moment from "moment";
+import {notification} from "antd";
 
 const AddSong = () => {
     const defaultValues = {
@@ -85,7 +85,13 @@ const AddSong = () => {
             })
             .then(res => {
                 console.debug("[add-song]", res)
-                navigate("/musictracks")
+                notification.success({
+                    message: "SUCCESS",
+                    description: "Create song successful!",
+                    placement: "bottomLeft"
+                })
+                navigate("/admin/song");
+
             })
             .catch(err => {
                 console.error("[add song]", err);
@@ -254,7 +260,10 @@ const AddSong = () => {
                                     {/*    </div>*/}
                                     {/*)*/}
                                     {/*}*/}
-
+                                    <input  className="btn-secondary btn btn-block"
+                                            type="button"
+                                            value="cancel"
+                                            onClick={() => navigate("/admin/song")}/>
                                     <input
                                         type="submit"
                                         value="Submit"

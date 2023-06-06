@@ -3,6 +3,7 @@ import React from "react";
 import { FiMusic, FiUsers } from "react-icons/fi";
 import { GiReceiveMoney } from "react-icons/gi"
 import { SiAdobepremierepro } from "react-icons/si"
+import {useAppContext} from "../../../context/AppContextProvider";
 
 function Home() {
   return (

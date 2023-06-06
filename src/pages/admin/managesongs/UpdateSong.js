@@ -168,6 +168,7 @@ const UpdateSongType = () => {
                                                 required: "*This is required",
                                             })}
                                         />
+                                        <span style={{marginTop: "10px"}}>upload before: {updateSongData.audio}</span>
                                     </div>
                                     <p>{errors.audio?.message}</p>
                                     <div className="form-group">

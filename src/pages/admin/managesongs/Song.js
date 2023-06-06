@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import "./style.css";
 import {useAppContext} from "../../../context/AppContextProvider";
-import {Table} from 'antd'
+import {Modal, notification, Table, Tag} from 'antd'
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -32,14 +32,18 @@ const Song = () => {
     }, []);
 
     function handleDeleteSong(id) {
-        if (window.confirm("are you sure")) {
-            api.delete({url: "/api/song/" + id}).then(() => {
-                fetchData()
-            })
-                .catch(e => {
-                    alert("Cannot delete song!")
-                });
-        }
+        Modal.confirm({
+            content: `Delete song [id=${id}]?`,
+            onOk: () => api
+                .delete({url: `/api/song/${id}`})
+                .then((data) => {
+                    notification.success({message: "SUCCESS", description: `Delete song [id=${id}] successful`})
+                    fetchData()
+                })
+                .catch((err) => {
+                    notification.error({message: "ERROR", description: `Delete song [id=${id}] failed`})
+                }),
+        })
     }
 
     const columns = [
@@ -70,9 +74,10 @@ const Song = () => {
             render: value => <>{dayjs(value).fromNow()}</>
         },
         {
-            title: 'Is Public',
+            title: 'State',
             dataIndex: 'isPublic',
-            key: 'isPublic'
+            key: 'isPublic',
+            render: val => <>{val ? <Tag color={"green"}>PUBLIC</Tag> : <Tag color={"red"}>PRIVATE</Tag>}</>
         },
         {
             title: 'Price',
@@ -88,22 +93,24 @@ const Song = () => {
             title: 'AccountId',
             dataIndex: 'accountid',
             key: 'accountid',
+            // render: val => <>{<span>{val.accountID}</span> }</>
         },
         {
             title: "Actions",
             render: (_, record) => {
                 return <>
                     <button
-                        className="btn-update-admin btn btn-light"
+                        className="btn-primary btn"
                         onClick={() => navigate(`/admin/song/${record.id}`)}
                     >
                         Update
                     </button>
                     {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
-                    <button className="btn-delete-admin btn btn-light"
+                    <button className="btn btn-outline-danger"
                             onClick={() => handleDeleteSong(record.id)}>
                         Delete
                     </button>
+
                 </>
             }
         }
