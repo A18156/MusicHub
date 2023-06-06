@@ -12,9 +12,11 @@ const ManageUserAccounts = () => {
     const navigate = useNavigate();
     const [userData, setUserData] = useState([]);
     const {api, user} = useAppContext();
-    const [role, setRole] = useState([]);
-
-    const hidden = user?.role?.[0].name !== "ROLE_ADMIN"
+    const [hidden, setHidden] = React.useState(user?.roles?.length == 0 || user?.roles?.[0].name != "ROLE_ADMIN")
+    React.useEffect(() => {
+        console.debug("[user]", user)
+        setHidden(user?.roles?.length == 0 || user?.roles?.[0] != "ROLE_ADMIN")
+    }, [JSON.stringify(user)])
 
     function fetchData() {
         api
@@ -105,30 +107,27 @@ const ManageUserAccounts = () => {
             key: 'dateRegister',
             render: value => <>{dayjs(value).fromNow()}</>
         },
-        {
-            title: "Actions",
-            fixed: 'right',
-            width: 500,
-            render: (_, record) => {
-                return <>
-                    <Button
-
-                        type={"primary"}
-                        className={` ${hidden ? "" : "hidden"}`}
-
-                        onClick={() => navigate(`/admin/manageaccount/edit/${record.accountID}`)}
-                    >
-                        Update
-                    </Button>
-                    {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
-                    <Button danger
-                            className={` ${hidden ? "" : "hidden"}`}
-                            onClick={() => handleDeleteAccount(record.accountID)}>
-                        Delete
-                    </Button>
-                </>
-            }
-        }
+        ...(hidden ? []
+            : [{
+                title: "Actions",
+                fixed: 'right',
+                width: 500,
+                render: (_, record) => {
+                    return <>
+                        <Button
+                            type={"primary"}
+                            onClick={() => navigate(`/admin/manageaccount/edit/${record.accountID}`)}
+                        >
+                            Update
+                        </Button>
+                        {/* <input type="submit" value="Update" className="btn-update-admin btn btn-light" /> */}
+                        <Button danger
+                                onClick={() => handleDeleteAccount(record.accountID)}>
+                            Delete
+                        </Button>
+                    </>
+                }
+            }])
     ];
 
     React.useEffect(() => {
@@ -161,12 +160,12 @@ const ManageUserAccounts = () => {
                 {/* Main content */}
                 <section className="content">
                     <div className="container-fluid">
-                        <div style={{marginBottom: 10}}>
-                            <button className={`btn btn-primary ${hidden ? "" : "hidden"}`}
+                        {!hidden && (<div style={{marginBottom: 10}}>
+                            <button className={`btn btn-primary`}
                                     onClick={() => navigate("addaccount")}>
                                 Add Account
                             </button>
-                        </div>
+                        </div>)}
                         <Table dataSource={userData}
                                columns={columns}
                                scroll={{x: true}}

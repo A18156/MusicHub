@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import "./style.css";
 import {useAppContext} from "../../../context/AppContextProvider";
-import {Modal, notification, Table, Tag} from 'antd'
+import {Image, Modal, notification, Table, Tag} from 'antd'
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -58,20 +58,19 @@ const Song = () => {
             key: 'title',
         },
         {
-            title: 'Audio',
-            dataIndex: 'audio',
-            key: 'audio',
-        },
-        {
             title: 'Image',
             dataIndex: 'image',
             key: 'image',
+            render: url => <Image src={`/files/${url}`} alt={url} width={80}/>
         },
         {
-            title: 'Date upload',
-            dataIndex: 'dateUpload',
-            key: 'dateUpload',
-            render: value => <>{dayjs(value).fromNow()}</>
+            title: 'Audio',
+            dataIndex: 'audio',
+            key: 'audio',
+            // render: url => <a href={`/files/${url}`}>{url}</a>
+            render: url => <audio controls>
+                <source src={`/files/${url}`} type="audio/mpeg"/>
+            </audio>
         },
         {
             title: 'State',
@@ -80,20 +79,21 @@ const Song = () => {
             render: val => <>{val ? <Tag color={"green"}>PUBLIC</Tag> : <Tag color={"red"}>PRIVATE</Tag>}</>
         },
         {
+            title: 'Song Type',
+            dataIndex: 'songType',
+            key: 'songType',
+            render: type => <>{type?.name}</>
+        },
+        {
             title: 'Price',
             dataIndex: 'price',
             key: "price",
         },
         {
-            title: 'Song_Type ID',
-            dataIndex: 'songType',
-            key: 'songType',
-        },
-        {
-            title: 'AccountId',
-            dataIndex: 'accountid',
-            key: 'accountid',
-            // render: val => <>{<span>{val.accountID}</span> }</>
+            title: 'Date upload',
+            dataIndex: 'dateUpload',
+            key: 'dateUpload',
+            render: value => <>{dayjs(value).fromNow()}</>
         },
         {
             title: "Actions",
@@ -196,7 +196,7 @@ const Song = () => {
                         {/*    </tbody>*/}
                         {/*</table>*/}
 
-                        <Table dataSource={song} columns={columns} pagination={false} />
+                        <Table dataSource={song} columns={columns} pagination={false}/>
                         {/* /.row (main row) */}
                     </div>
                     {/* /.container-fluid */}

@@ -209,7 +209,7 @@ const UpdateSongType = () => {
                                     <div className="form-group">
                                         <label htmlFor="price">Price</label>
                                         <input
-                                            type="text"
+                                            type="number"
                                             name="price"
                                             id="price"
                                             className="form-control"
